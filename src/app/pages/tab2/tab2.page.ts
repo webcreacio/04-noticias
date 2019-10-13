@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSegment, IonSegmentButton } from '@ionic/angular';
+import { IonSegment, IonSegmentButton, IonContent } from '@ionic/angular';
 import { NoticiasService } from '../../services/noticias.service';
 import { Article } from '../../interfaces/interfaces';
 
@@ -14,17 +14,20 @@ export class Tab2Page implements OnInit {
   news: Article[] = [];
   // ViewChild para recuperar la category del segmento
   @ViewChild(IonSegment, { static: true }) segment: IonSegment;
+  // Scroll to Top
+  @ViewChild(IonContent, { static: false }) content: IonContent;
 
   constructor( private noticasService: NoticiasService ) {
   }
 
   ngOnInit() {
+    this.segment.value = this.categories[0];
     this.loadNews( this.categories[0] );
   }
 
   changeCategory( event ) {
     this.news = [];
-    console.log("Hola");
+    this.content.scrollToTop();
     this.loadNews( event.detail.value );
   }
 
@@ -36,7 +39,6 @@ export class Tab2Page implements OnInit {
   loadNews( category: string, event? ) {
     this.noticasService.getTopHeadLinesCategory( category )
       .subscribe( resp => {
-        console.log(resp);
         this.news.push( ...resp.articles );
 
         if ( event ) {
