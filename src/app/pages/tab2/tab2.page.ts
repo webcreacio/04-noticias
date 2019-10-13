@@ -8,20 +8,20 @@ import { Article } from '../../interfaces/interfaces';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page implements OnInit {
+export class Tab2Page {
 
   categories: string[] = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'];
   news: Article[] = [];
   // ViewChild para recuperar la category del segmento
-  @ViewChild(IonSegment, { static: true }) segment: IonSegment;
+  @ViewChild(IonSegment, { static: false }) segment: IonSegment;
   // Scroll to Top
   @ViewChild(IonContent, { static: false }) content: IonContent;
 
-  constructor( private noticasService: NoticiasService ) {
+  constructor( private noticiasService: NoticiasService ) {
   }
 
-  ngOnInit() {
-    this.segment.value = this.categories[0];
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngAfterViewInit(): void {
     this.loadNews( this.categories[0] );
   }
 
@@ -37,7 +37,7 @@ export class Tab2Page implements OnInit {
 
 
   loadNews( category: string, event? ) {
-    this.noticasService.getTopHeadLinesCategory( category )
+    this.noticiasService.getTopHeadLinesCategory( category )
       .subscribe( resp => {
         this.news.push( ...resp.articles );
 

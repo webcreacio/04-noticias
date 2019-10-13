@@ -5,7 +5,7 @@
     </ion-title>
   </ion-toolbar>
   <ion-segment scrollable color="primary" (ionChange)="changeCategory( $event )">
-    <ion-segment-button mode="md" *ngFor="let category of categories" [value]="category">
+    <ion-segment-button mode="md" *ngFor="let category of categories" [value]="category" checked>
       <ion-label class="text-capitalize">{{ category }}</ion-label>
     </ion-segment-button>
   </ion-segment>  
@@ -19,5 +19,5 @@
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
-
+  
 </ion-content>
